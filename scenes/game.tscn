@@ -1,0 +1,295 @@
+[gd_scene load_steps=21 format=3 uid="uid://gh0svurbh4m"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_1o1je"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_5fmgw"]
+[ext_resource type="Script" path="res://scripts/destination.gd" id="2_tre3b"]
+[ext_resource type="Script" path="res://scripts/camera_follow.gd" id="3_yepk1"]
+[ext_resource type="Script" path="res://scripts/ui_player.gd" id="5_rb6nb"]
+[ext_resource type="Script" path="res://scripts/ui_game_over.gd" id="6_qdfkm"]
+[ext_resource type="Script" path="res://scripts/ui_overlay.gd" id="7_5phys"]
+[ext_resource type="Script" path="res://scripts/ui_game_end.gd" id="7_nu26i"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sla6o"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_gboms"]
+sky_material = SubResource("ProceduralSkyMaterial_sla6o")
+
+[sub_resource type="Environment" id="Environment_r87bh"]
+background_mode = 2
+sky = SubResource("Sky_gboms")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_8mjph"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3jyfa"]
+radius = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y4xpe"]
+albedo_color = Color(0.847059, 0.713726, 0, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_387wj"]
+_surfaces = [{
+"aabb": AABB(-3.41421, -3.41421, 0, 6.82843, 6.82843, 1e-05),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 128, 63),
+"format": 4119,
+"index_count": 72,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 2, 0, 1, 0, 3, 0, 1, 0, 4, 0, 3, 0, 3, 0, 4, 0, 5, 0, 1, 0, 0, 0, 6, 0, 6, 0, 0, 0, 7, 0, 8, 0, 9, 0, 10, 0, 10, 0, 9, 0, 11, 0, 12, 0, 13, 0, 8, 0, 8, 0, 13, 0, 9, 0, 14, 0, 11, 0, 15, 0, 15, 0, 11, 0, 9, 0, 16, 0, 17, 0, 18, 0, 18, 0, 17, 0, 19, 0, 20, 0, 21, 0, 16, 0, 16, 0, 21, 0, 17, 0, 22, 0, 19, 0, 23, 0, 23, 0, 19, 0, 17, 0, 24, 0, 25, 0, 26, 0, 26, 0, 25, 0, 27, 0, 25, 0, 28, 0, 27, 0, 27, 0, 28, 0, 29, 0, 25, 0, 24, 0, 30, 0, 30, 0, 24, 0, 31, 0),
+"material": SubResource("StandardMaterial3D_y4xpe"),
+"primitive": 3,
+"vertex_count": 32,
+"vertex_data": PackedByteArray(247, 4, 53, 63, 62, 65, 45, 64, 0, 0, 0, 0, 255, 127, 255, 127, 144, 228, 71, 178, 0, 0, 0, 0, 154, 153, 57, 64, 0, 0, 0, 0, 255, 127, 255, 127, 61, 223, 96, 208, 0, 0, 0, 0, 119, 130, 90, 64, 0, 0, 0, 0, 255, 127, 255, 127, 35, 229, 108, 205, 247, 4, 53, 191, 62, 65, 45, 64, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 223, 247, 4, 53, 191, 92, 88, 12, 64, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 223, 238, 4, 181, 191, 0, 0, 0, 64, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 223, 247, 4, 53, 63, 92, 88, 12, 64, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 238, 4, 181, 63, 0, 0, 0, 64, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 62, 65, 45, 192, 247, 4, 53, 63, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 95, 154, 153, 57, 192, 0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 255, 127, 61, 95, 158, 111, 119, 130, 90, 192, 0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 255, 127, 36, 101, 145, 114, 62, 65, 45, 192, 247, 4, 53, 191, 0, 0, 0, 0, 255, 127, 255, 127, 110, 155, 72, 114, 0, 0, 0, 192, 238, 4, 181, 63, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 95, 92, 88, 12, 192, 247, 4, 53, 63, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 95, 0, 0, 0, 192, 238, 4, 181, 191, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 92, 88, 12, 192, 247, 4, 53, 191, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 62, 65, 45, 64, 247, 4, 53, 191, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 31, 154, 153, 57, 64, 0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 255, 127, 193, 160, 96, 16, 119, 130, 90, 64, 0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 255, 127, 218, 154, 109, 13, 62, 65, 45, 64, 247, 4, 53, 63, 0, 0, 0, 0, 255, 127, 255, 127, 144, 100, 183, 13, 0, 0, 0, 64, 238, 4, 181, 191, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 31, 92, 88, 12, 64, 247, 4, 53, 191, 0, 0, 0, 0, 255, 127, 255, 127, 255, 191, 255, 31, 0, 0, 0, 64, 238, 4, 181, 63, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 92, 88, 12, 64, 247, 4, 53, 63, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 247, 4, 53, 191, 62, 65, 45, 192, 0, 0, 0, 0, 255, 127, 255, 127, 110, 27, 182, 205, 0, 0, 0, 0, 154, 153, 57, 192, 0, 0, 0, 0, 255, 127, 255, 127, 193, 32, 158, 175, 0, 0, 0, 0, 119, 130, 90, 192, 0, 0, 0, 0, 255, 127, 255, 127, 219, 26, 145, 178, 247, 4, 53, 63, 62, 65, 45, 192, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 159, 247, 4, 53, 63, 92, 88, 12, 192, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 159, 238, 4, 181, 63, 0, 0, 0, 192, 0, 0, 0, 0, 255, 127, 255, 127, 255, 63, 255, 159, 247, 4, 53, 191, 92, 88, 12, 192, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63, 238, 4, 181, 191, 0, 0, 0, 192, 0, 0, 0, 0, 255, 127, 255, 127, 255, 255, 255, 63)
+}]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wpn2t"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_t7xbk"]
+points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bkdv3"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_xbipo"]
+font_size = 80
+
+[sub_resource type="LabelSettings" id="LabelSettings_vqn8d"]
+font_size = 32
+
+[node name="game" type="Node3D"]
+script = ExtResource("1_5fmgw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_r87bh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="destination" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 10)
+collision_layer = 8
+script = ExtResource("2_tre3b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="destination"]
+transform = Transform3D(0.482656, -0.527918, 0.698818, -0.0803055, 0.767872, 0.635549, -0.872121, -0.362871, 0.328223, 0, 0, 0)
+mesh = SubResource("BoxMesh_8mjph")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="destination"]
+shape = SubResource("SphereShape3D_3jyfa")
+
+[node name="cursor" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="cursor"]
+transform = Transform3D(-0.2, 6.97574e-17, -1.74846e-08, 6.97574e-17, 0.2, -6.97574e-17, 1.74846e-08, -6.97574e-17, -0.2, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("ArrayMesh_387wj")
+
+[node name="player" type="CharacterBody3D" parent="."]
+collision_mask = 0
+script = ExtResource("1_1o1je")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player"]
+transform = Transform3D(1, -1.24591e-16, 2.67186e-16, 2.67186e-16, 0.766044, -0.642788, -1.24591e-16, 0.642788, 0.766044, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_wpn2t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, -1.24591e-16, 2.67186e-16, 2.67186e-16, 0.766044, -0.642788, -1.24591e-16, 0.642788, 0.766044, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_t7xbk")
+
+[node name="Area3D" type="Area3D" parent="player"]
+collision_mask = 14
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player/Area3D"]
+transform = Transform3D(1, -1.24591e-16, 2.67186e-16, 2.67186e-16, 0.766044, -0.642788, -1.24591e-16, 0.642788, 0.766044, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_t7xbk")
+
+[node name="camera_follow" type="Node3D" parent="."]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, -5)
+script = ExtResource("3_yepk1")
+
+[node name="Camera3D" type="Camera3D" parent="camera_follow"]
+transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, -3.48787e-16, -3.48787e-16, 3.48787e-16, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="ui_player" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_rb6nb")
+
+[node name="hp_bar" type="HBoxContainer" parent="ui_player"]
+custom_minimum_size = Vector2(100, 2.08165e-12)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -70.0
+offset_right = 150.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
+theme_override_constants/separation = 8
+
+[node name="bar_0" type="ColorRect" parent="ui_player/hp_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.290196, 0.588235, 0.996078, 1)
+
+[node name="bar_1" type="ColorRect" parent="ui_player/hp_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.12549, 0.509804, 0.992157, 1)
+
+[node name="bar_2" type="ColorRect" parent="ui_player/hp_bar"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.0196078, 0.431373, 0.890196, 1)
+
+[node name="scores" type="Control" parent="ui_player"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 50.0
+offset_right = 150.0
+offset_bottom = 90.0
+grow_horizontal = 2
+
+[node name="label" type="Label" parent="ui_player/scores"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_bkdv3")
+horizontal_alignment = 1
+
+[node name="ui_game_over" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_qdfkm")
+
+[node name="top" type="VBoxContainer" parent="ui_game_over"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 230.0
+grow_horizontal = 2
+
+[node name="label_0" type="Label" parent="ui_game_over/top"]
+layout_mode = 2
+text = "You Died"
+label_settings = SubResource("LabelSettings_xbipo")
+horizontal_alignment = 1
+
+[node name="label_1" type="Label" parent="ui_game_over/top"]
+layout_mode = 2
+text = "Alone"
+label_settings = SubResource("LabelSettings_xbipo")
+horizontal_alignment = 1
+
+[node name="label_2" type="Label" parent="ui_game_over/top"]
+layout_mode = 2
+text = "In Space"
+label_settings = SubResource("LabelSettings_xbipo")
+horizontal_alignment = 1
+
+[node name="bottom" type="VBoxContainer" parent="ui_game_over"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="instruction" type="Label" parent="ui_game_over/bottom"]
+layout_mode = 2
+text = "Press any key to restart"
+label_settings = SubResource("LabelSettings_vqn8d")
+horizontal_alignment = 1
+
+[node name="ui_game_end" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_nu26i")
+
+[node name="top" type="VBoxContainer" parent="ui_game_end"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 347.0
+grow_horizontal = 2
+
+[node name="label_0" type="Label" parent="ui_game_end/top"]
+layout_mode = 2
+text = "Destination"
+label_settings = SubResource("LabelSettings_xbipo")
+horizontal_alignment = 1
+
+[node name="label_1" type="Label" parent="ui_game_end/top"]
+layout_mode = 2
+text = "Reached"
+label_settings = SubResource("LabelSettings_xbipo")
+horizontal_alignment = 1
+
+[node name="ui_overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_5phys")
+
+[node name="ColorRect" type="ColorRect" parent="ui_overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="hp_changed" from="player" to="ui_player" method="_on_player_hp_changed"]
+[connection signal="player_is_dead" from="player" to="." method="_on_player_is_dead"]
+[connection signal="player_reached_destination" from="player" to="." method="_on_player_reached_destination"]
+[connection signal="scores_changed" from="player" to="ui_player" method="_on_player_scores_changed"]
+[connection signal="body_entered" from="player/Area3D" to="player" method="_on_collision_enter"]
+[connection signal="visibility_changed" from="ui_game_over" to="ui_game_over" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="ui_game_end" to="ui_game_end" method="_on_visibility_changed"]
