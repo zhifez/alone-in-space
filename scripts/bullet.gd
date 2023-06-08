@@ -1,15 +1,21 @@
 extends StaticBody3D
 
+class_name Bullet
+
 const SPEED = 20.0
+const ALIVE_DURATION = 2.0
 
+var timer = 0.0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	timer += delta
+	if timer >= ALIVE_DURATION:
+		visible = false
+		return
+	
 	translate(
-		transform.basis.z.normalized() * delta * SPEED
+		Vector3(0, 0, delta * -SPEED)
 	)
+
+func _on_visibility_changed():
+	timer = 0.0

@@ -15,7 +15,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var move_to_pos = Vector3(0, 0, player.position.z - FOLLOW_OFFSET)
+	var move_to_pos = Vector3(0, 0, player.position.z + FOLLOW_OFFSET)
 	var next_pos = position
 	next_pos = lerp(next_pos, move_to_pos, delta * MOVE_SPEED)
 	position = next_pos

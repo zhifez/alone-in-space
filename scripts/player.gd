@@ -4,13 +4,14 @@ const MAX_HP = 3
 const SPEED = 7.0
 const FORWARD_SPEED = 10.0
 const CURSOR_SPEED = 10.0
-const CURSOR_DISTANCE = 2.0
+const CURSOR_DISTANCE = 4.0
 const CURSOR_SCALE_SPEED = 5.0
 const BULLET_SHOOT_INTERVAL = 0.2
 
 @onready var game: Game = get_node("/root/game")
 @onready var camera = get_node("/root/game/camera_follow")
 @onready var cursor = get_node("/root/game/cursor")
+@onready var shoot_pos = $shoot_pos
 
 signal hp_changed(current, max)
 signal player_is_dead()
@@ -35,7 +36,8 @@ var scores: int = 0:
 var cursor_size = 1.0:
 	set(value):
 		cursor_size = clamp(value, 0.8, 1.2)
-		cursor.scale = Vector3.ONE * cursor_size	
+		cursor.scale = Vector3.ONE * cursor_size
+var shoot_timer = 0.0
 
 # State Machine
 enum State {
@@ -74,7 +76,7 @@ func allow_move():
 	
 # Private
 func _move_cursor(delta: float):
-	cursor.position.z = position.z + CURSOR_DISTANCE
+	cursor.position.z = position.z - CURSOR_DISTANCE
 	
 	var input_dir_2 = Input.get_vector("ui_left_2", "ui_right_2", "ui_down_2", "ui_up_2")
 	if (!Input.is_action_pressed("ui_left_2")
@@ -101,14 +103,20 @@ func _move_cursor(delta: float):
 			cursor_size
 		)
 	)
-	cursor.position.x -= input_dir_2.x * delta * CURSOR_SPEED
+	cursor.position.x += input_dir_2.x * delta * CURSOR_SPEED
 	cursor.position.x = clamp(cursor.position.x, -move_offset_hor, move_offset_hor)
 	cursor.position.y += input_dir_2.y * delta * CURSOR_SPEED
 	cursor.position.y = clamp(cursor.position.y, -move_offset_ver, move_offset_ver)
 	return true
 	
-func _shoot_bullet():
-	pass
+func _shoot_bullet(delta: float):
+	shoot_timer += delta
+	if shoot_timer >= BULLET_SHOOT_INTERVAL:
+		shoot_timer = 0
+		game.spawn_bullet(
+			shoot_pos.global_position, 
+			cursor.global_position
+		)
 
 # Internal
 func _ready():
@@ -130,15 +138,17 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.y = move_toward(velocity.y, 0, SPEED)
-	velocity.z = FORWARD_SPEED
+	velocity.z = -FORWARD_SPEED
 	
 	move_and_slide()
 	
 	position.x = clamp(position.x, -move_offset_hor, move_offset_hor)
 	position.y = clamp(position.y, -move_offset_ver, move_offset_ver)
 	
-	if _move_cursor(delta):
-		_shoot_bullet()
+	shoot_pos.look_at(cursor.position)
+	
+	if _move_cursor(delta) || Input.is_action_pressed("ui_accept"):
+		_shoot_bullet(delta)
 
 func _on_collision_enter(node):
 	if node is Obstacle:

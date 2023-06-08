@@ -14,6 +14,7 @@ const OBSTACLE_SPAWN_INTERVAL_MAX = 5.0
 @onready var obstacles = {
 	"asteroid": preload("res://prefabs/obstacles/asteroid.tscn"),
 }
+@onready var bullet_prefab = preload("res://prefabs/bullets/bullet.tscn")
 @onready var ui_game_over = $ui_game_over
 @onready var ui_game_end = $ui_game_end
 @onready var ui_overlay = $ui_overlay
@@ -32,6 +33,7 @@ var timer: float = 0.0:
 			)
 			_spawn_obstacle()
 var can_restart = false
+var bullets: Array = []
 
 # State Machine
 enum State {
@@ -97,6 +99,23 @@ func _run_state(delta: float):
 		_state_game(delta)
 	elif _state == State.over || _state == State.end:
 		_state_over()
+		
+# Public
+func spawn_bullet(from: Vector3, to: Vector3):
+	var new_bullet = null
+	for b in bullets:
+		if not b.visible:
+			new_bullet = b
+			break
+	
+	if new_bullet == null:
+		new_bullet = bullet_prefab.instantiate()
+		add_child(new_bullet)
+		bullets.append(new_bullet)
+		
+	new_bullet.visible = true
+	new_bullet.position = from
+	new_bullet.look_at(to)
 
 # Private	
 func _spawn_obstacle():
@@ -110,7 +129,7 @@ func _spawn_obstacle():
 			-EDGE_OFFSET_VER,
 			EDGE_OFFSET_VER
 		),
-		player.position.z + OBSTACLE_SPAWN_DISTANCE
+		player.position.z - OBSTACLE_SPAWN_DISTANCE
 	)
 	obstacle.position = spawn_pos
 	spawn_node.add_child(obstacle)
@@ -124,7 +143,7 @@ func _restart():
 			spawn_node.remove_child(n)
 			n.queue_free()
 			
-	destination.position = Vector3(0, 0, DESTINATION_DISTANCE)
+	destination.position = Vector3(0, 0, -DESTINATION_DISTANCE)
 	
 	player.move_offset_hor = EDGE_OFFSET_HOR
 	player.move_offset_ver = EDGE_OFFSET_VER
